@@ -1,0 +1,39 @@
+product:
+    path:     /
+    defaults: { _controller: "SoftlogoProductBundle:Product:index" }
+
+product_cat:
+    pattern:  /category/{id}
+    defaults: { _controller: SoftlogoProductBundle:Product:findByCategory }
+
+product_show:
+    path:     /{id}/show
+    defaults: { _controller: "SoftlogoProductBundle:Product:show" }
+
+product_new:
+    path:     /new
+    defaults: { _controller: "SoftlogoProductBundle:Product:new" }
+
+product_create:
+    path:     /create
+    defaults: { _controller: "SoftlogoProductBundle:Product:create" }
+    requirements: { _method: post }
+
+product_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "SoftlogoProductBundle:Product:edit" }
+
+product_update:
+    path:     /{id}/update
+    defaults: { _controller: "SoftlogoProductBundle:Product:update" }
+    requirements: { _method: post|put }
+
+product_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "SoftlogoProductBundle:Product:delete" }
+    requirements: { _method: post|delete }
+
+
+product_search:
+    path:     /search
+    defaults: { _controller: "SoftlogoProductBundle:Search:index" }

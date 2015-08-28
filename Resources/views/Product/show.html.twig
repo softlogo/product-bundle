@@ -1,0 +1,139 @@
+{% extends "SoftlogoProductBundle:Product:index.html.twig" %}
+
+{% block title %}
+<title>{{entity.name}}</title>
+{% endblock %}
+
+{% block style %}
+{{parent()}}
+<style type="text/css">
+.form-standard .btn, input[type="submit"],.form-standard  input[type="button"],.form-standard  button.btn,.form-standard  .btn-primary {
+		margin:0;
+	}
+</style>
+{% endblock %}
+{% block breadcrumb %}	
+<li>
+<a href="/">Home</a>
+</li>
+<li><a href="/pl/shop">Sklep</a></li>
+<li class="active"><a href="/pl/shop/category/{{entity.category.id}}">{{entity.category.name}}</a></li>
+<li class="active"><a href="/pl/shop/{{entity.id}}/show">{{entity.name}}</a></li>
+{% endblock breadcrumb %}	
+
+{% block content -%}
+<div class="body-wrapper">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 col-sm-12">
+				<h1>{{entity.name}}</h1>
+			</div>
+			<div class="col-md-6 col-sm-6">
+
+
+				<!-- Blog Post -->
+
+
+				<div class="portfolio-single-image cycle-slideshow"
+					data-cycle-slides="> .slider-img"
+					data-cycle-swipe="true"
+					data-cycle-prev=".cycle-prev"
+					data-cycle-next=".cycle-next"
+					data-cycle-timeout=0>
+					<div class="fa fa-chevron-right cycle-next"></div>
+					<div class="fa fa-chevron-left cycle-prev"></div>
+					<div class="cycle-pager"></div>
+					{% for pm in entity.productMedias %}
+					<div class="slider-img">
+						<img src="{% path pm.media, 'large' %}" alt="" class="img-responsive"/>
+					</div>
+					{% endfor %}
+
+				</div>
+
+				<br />
+				<br />
+
+
+
+				<a href="/pl/shop/category/{{entity.category.id}}">Powrót do listy produktów</a>
+			</div>
+			<div class="col-md-6 col-sm-6">
+
+				<div class="sidebar">
+
+					<!-- Sidebar Block -->
+					<!-- Sidebar Block -->
+
+
+					<!-- Sidebar Block -->
+					<!-- Sidebar Block -->
+
+
+					<!-- Sidebar Block -->
+					<!-- Sidebar Block -->
+
+
+					<h3>Cena {{(entity.price/1.23) |round(2)}} zł <small>({{(entity.price) | round(2)}} zł brutto)</small></h3>
+					{{ form_start(form, { 'style': 'inline form-standard' }) }}
+					<div class="hidden">
+
+					</div>
+					{{form_row(form.quantity)}}
+					{{ form_end(form) }}
+					<br />
+
+					<p>{{entity.description}}</p>
+					<br />
+
+					{% if entity.productParameters.count>0%}
+
+					<h3 class="h3-sidebar-title sidebar-title">Atrybuty</h3>
+
+					<table class="table table-bordered table-striped">
+						<tbody>
+
+						{% for pp in entity.productParameters %}
+							<tr>
+								<th>{{pp.parameter.name}}</th>
+								<td>{{pp.value}}</td>
+							</tr>
+						{% endfor %}
+						</tbody>
+					</table>
+					<br />
+
+					{% endif %}
+<!--
+   -                    <div class="sidebar-block">
+   -                        <h3 class="h3-sidebar-title sidebar-title">tagi</h3>
+   -
+   -                        <div class="sidebar-content tags">
+   -                            <a href="">Klimatyzacja</a>
+   -                            <a href="">Sprężarka inwerterowa</a>
+   -                            <a href="">MULTI V IV</a>
+   -                            <a href="">HiPOR</a>
+   -                            <a href="">LG</a>
+   -                        </div>
+   -                    </div>
+   -->
+
+				</div>
+				<!-- //Blog Post// -->
+
+				<!-- About The Author -->
+
+
+
+
+
+			</div>
+
+
+		</div>
+	</div>
+
+
+
+
+	{% endblock %}

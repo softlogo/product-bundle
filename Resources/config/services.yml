@@ -1,0 +1,36 @@
+parameters:
+#    softlogo_product.example.class: Softlogo\ProductBundle\Example
+
+services:
+#    softlogo_product.example:
+#        class: %softlogo_product.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
+    softlogo_product.admin.product:
+        class: Softlogo\ProductBundle\Admin\ProductAdmin
+        arguments: [~, Softlogo\ProductBundle\Entity\Product, SonataAdminBundle:CRUD]
+        tags:
+            - {name: sonata.admin, manager_type: orm, group: Shop, label: Products}
+
+    softlogo_product.admin.category:
+        class: Softlogo\ProductBundle\Admin\CategoryAdmin
+        arguments: [~, Softlogo\ProductBundle\Entity\Category, SonataAdminBundle:CRUD]
+        tags:
+            - {name: sonata.admin, manager_type: orm, group: Shop, label: Categories}
+
+    softlogo_product.admin.brand:
+        class: Softlogo\ProductBundle\Admin\BrandAdmin
+        arguments: [~, Softlogo\ProductBundle\Entity\Brand, SonataAdminBundle:CRUD]
+        tags:
+            - {name: sonata.admin, manager_type: orm, group: Shop, label: Brands}
+
+    softlogo_product.admin.product_media:
+        class: Softlogo\ProductBundle\Admin\ProductMediaAdmin
+        arguments: [~, Softlogo\ProductBundle\Entity\ProductMedia, SonataAdminBundle:CRUD]
+        tags:
+            - {name: sonata.admin, manager_type: orm, group: admin, label: ProductMedia, show_in_dashboard: false}
+
+    softlogo_product.admin.product_parameter:
+        class: Softlogo\ProductBundle\Admin\ProductParameterAdmin
+        arguments: [~, Softlogo\ProductBundle\Entity\ProductParameter, SonataAdminBundle:CRUD]
+        tags:
+            - {name: sonata.admin, manager_type: orm, group: admin, label: ProductParameter}

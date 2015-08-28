@@ -1,0 +1,6 @@
+softlogo_product_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: SoftlogoProductBundle:Default:index }
+SoftlogoProductBundle_product:
+    resource: "@SoftlogoProductBundle/Resources/config/routing/product.yml"
+    prefix:   /
