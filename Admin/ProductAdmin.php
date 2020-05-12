@@ -7,6 +7,10 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Sonata\Form\Type\CollectionType;
+use Sonata\AdminBundle\Form\Type\ModelListType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class ProductAdmin extends Admin
 {
@@ -66,7 +70,7 @@ class ProductAdmin extends Admin
 					->add('description')
 					->add('stock')
 					->add('category')
-					->add('productMedias', 'sonata_type_collection', array('label' => 'Media', 'required' => false, 'by_reference' => false), array('edit' => 'inline','inline' => 'table'))
+					->add('productMedias', CollectionType::class, array('label' => 'Media', 'required' => false, 'by_reference' => false), array('edit' => 'inline','inline' => 'table'))
 				->end()
             ->end()
 			->tab('Options')
@@ -76,7 +80,7 @@ class ProductAdmin extends Admin
 					->add('shippingCalculationType')
 				->end()
 				->with('Parameters')
-					->add('productParameters', 'sonata_type_collection', array('label' => 'Parameters', 'required' => false, 'by_reference' => false), array('edit' => 'inline','inline' => 'table'))
+					->add('productParameters', CollectionType::class, array('label' => 'Parameters', 'required' => false, 'by_reference' => false), array('edit' => 'inline','inline' => 'table'))
 				->end()
 			->end()
 

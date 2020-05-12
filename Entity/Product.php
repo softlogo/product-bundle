@@ -99,6 +99,14 @@ class Product implements ProductInterface
     private $shippingCalculationType;
 
 
+	/**
+	 *
+	 * @ORM\OneToMany(targetEntity="Softlogo\CMSBundle\Entity\Content", mappedBy="product",cascade={"all"}, orphanRemoval=true)
+	 */
+	private $contents;
+
+
+
 
 	public function getFirstProductMedia(){
 		return $this->getProductMedias()->first();
@@ -397,5 +405,39 @@ class Product implements ProductInterface
     public function getProductParameters()
     {
         return $this->productParameters;
+    }
+
+    /**
+     * Add content
+     *
+     * @param \Softlogo\CMSBundle\Entity\Content $content
+     *
+     * @return Product
+     */
+    public function addContent(\Softlogo\CMSBundle\Entity\Content $content)
+    {
+        $this->contents[] = $content;
+
+        return $this;
+    }
+
+    /**
+     * Remove content
+     *
+     * @param \Softlogo\CMSBundle\Entity\Content $content
+     */
+    public function removeContent(\Softlogo\CMSBundle\Entity\Content $content)
+    {
+        $this->contents->removeElement($content);
+    }
+
+    /**
+     * Get contents
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getContents()
+    {
+        return $this->contents;
     }
 }

@@ -24,7 +24,7 @@ class ProductParameter
     /**
      * @var integer
      *
-     * @ORM\Column(name="itemorder", type="integer")
+     * @ORM\Column(name="itemorder", type="integer", nullable=true)
      */
     private $itemorder;
 
@@ -152,5 +152,29 @@ class ProductParameter
     public function getProduct()
     {
         return $this->product;
+    }
+
+    /**
+     * Set value
+     *
+     * @param string $value
+     *
+     * @return ProductParameter
+     */
+    public function setValue($value)
+    {
+        $this->value = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get value
+     *
+     * @return string
+     */
+    public function getValue()
+    {
+        return $this->value;
     }
 }

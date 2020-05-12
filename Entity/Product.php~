@@ -99,6 +99,15 @@ class Product implements ProductInterface
     private $shippingCalculationType;
 
 
+	/**
+	 *
+	 * @ORM\OneToMany(targetEntity="Softlogo\CMSBundle\Entity\Content", mappedBy="product",cascade={"all"}, orphanRemoval=true)
+	 * @ORM\OrderBy({"itemorder" = "ASC"})
+	 */
+	private $contents;
+
+
+
 
 	public function getFirstProductMedia(){
 		return $this->getProductMedias()->first();
@@ -362,5 +371,40 @@ class Product implements ProductInterface
     public function getShippingCalculationType()
     {
         return $this->shippingCalculationType;
+    }
+
+    /**
+     * Add productParameter
+     *
+     * @param \Softlogo\ProductBundle\Entity\ProductParameter $productParameter
+     *
+     * @return Product
+     */
+    public function addProductParameter(\Softlogo\ProductBundle\Entity\ProductParameter $productParameter)
+    {
+		$productParameter->setProduct($this);
+        $this->productParameters[] = $productParameter;
+
+        return $this;
+    }
+
+    /**
+     * Remove productParameter
+     *
+     * @param \Softlogo\ProductBundle\Entity\ProductParameter $productParameter
+     */
+    public function removeProductParameter(\Softlogo\ProductBundle\Entity\ProductParameter $productParameter)
+    {
+        $this->productParameters->removeElement($productParameter);
+    }
+
+    /**
+     * Get productParameters
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getProductParameters()
+    {
+        return $this->productParameters;
     }
 }
