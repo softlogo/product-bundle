@@ -7,6 +7,10 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Sonata\Form\Type\CollectionType;
+use Sonata\AdminBundle\Form\Type\ModelListType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class ProductMediaAdmin extends Admin
 {
@@ -47,7 +51,7 @@ class ProductMediaAdmin extends Admin
         $formMapper
             ->add('itemorder')
             ->add('type')
-			->add('media', 'sonata_type_model_list', array('required' => false,), array())
+			->add('media', ModelListType::class, array('required' => false,), array())
         ;
     }
 

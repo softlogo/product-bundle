@@ -7,6 +7,10 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Sonata\Form\Type\CollectionType;
+use Sonata\AdminBundle\Form\Type\ModelListType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class CategoryAdmin extends Admin
 {
@@ -56,7 +60,7 @@ class CategoryAdmin extends Admin
 			->add('description')
 			->add('itemorder')
 			->add('parent')
-			->add('media', 'sonata_type_model_list', array('required' => false,), array())
+			->add('media', ModelListType::class, array('required' => false,), array())
 			;
 	}
 
