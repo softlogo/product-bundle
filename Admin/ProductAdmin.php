@@ -59,7 +59,7 @@ class ProductAdmin extends Admin
                 ->with('Product', array('class' => 'col-md-12'))->end()
             ->end()
 			->tab('Options')
-                ->with('Shipping', array('class' => 'col-md-6'))->end()
+                //->with('Shipping', array('class' => 'col-md-6'))->end()
                 ->with('Parameters', array('class' => 'col-md-6'))->end()
             ->end();
 		$formMapper
@@ -74,11 +74,13 @@ class ProductAdmin extends Admin
 				->end()
             ->end()
 			->tab('Options')
-				->with('Shipping')
-					->add('weight')
-					->add('shippingPackage')
-					->add('shippingCalculationType')
-				->end()
+				/*
+				 *->with('Shipping')
+				 *    ->add('weight')
+				 *    ->add('shippingPackage')
+				 *    ->add('shippingCalculationType')
+				 *->end()
+				 */
 				->with('Parameters')
 					->add('productParameters', CollectionType::class, array('label' => 'Parameters', 'required' => false, 'by_reference' => false), array('edit' => 'inline','inline' => 'table'))
 				->end()
