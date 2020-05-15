@@ -29,9 +29,9 @@ class ProductMedia
     private $itemorder;
 
     /**
-     * @var string
+     * @var integer
      *
-     * @ORM\Column(name="type", type="string", length=255, nullable=true)
+     * @ORM\Column(name="type", type="integer")
      */
     private $type;
 

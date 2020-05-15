@@ -15,9 +15,18 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Softlogo\ProductBundle\Entity\Product;
 use Softlogo\ProductBundle\Entity\Category;
 use Softlogo\ProductBundle\Entity\CategoryRepository;
+use Sonata\FormatterBundle\Form\Type\SimpleFormatterType;
 
 class ProductAdmin extends Admin
 {
+
+	protected $datagridValues = array(
+		'_page' => 1,
+		'_sort_order' => 'ASC',
+		'_sort_by' => 'name',
+	);
+
+
 	/**
 	 * @param DatagridMapper $datagridMapper
 	 */
@@ -47,6 +56,7 @@ class ProductAdmin extends Admin
 		$listMapper
 
 			//->add('firstProductMedia.media', 'sonata_type_model_list', array('template' => 'SoftlogoShopBundle:Admin:list-image.html.twig'), array('link_parameters' => array('context' => 'Foto')))
+			//->add('id')
 			->add('name')
 			//->add('firstProductMedia.media')
 			->add('categories')
@@ -65,39 +75,44 @@ class ProductAdmin extends Admin
 	 */
 	protected function configureFormFields(FormMapper $formMapper)
 	{
-        $formMapper
-			->tab('Product')
-                ->with('Product', array('class' => 'col-md-12'))->end()
-            ->end()
-			->tab('Options')
-                //->with('Shipping', array('class' => 'col-md-6'))->end()
-                ->with('Parameters', array('class' => 'col-md-6'))->end()
-            ->end();
 		$formMapper
 			->tab('Product')
-				->with('Product')
-					->add('name')
-					->add('price')
-					->add('description')
-					->add('stock')
-					->add('category')
-					->add('productMedias', CollectionType::class, array('label' => 'Media', 'required' => false, 'by_reference' => false), array('edit' => 'inline','inline' => 'table'))
-				->end()
-            ->end()
-			->tab('Options')
-				/*
-				 *->with('Shipping')
-				 *    ->add('weight')
-				 *    ->add('shippingPackage')
-				 *    ->add('shippingCalculationType')
-				 *->end()
-				 */
-				->with('Parameters')
-					->add('productParameters', CollectionType::class, array('label' => 'Parameters', 'required' => false, 'by_reference' => false), array('edit' => 'inline','inline' => 'table'))
-				->end()
+			->with('General', array('class' => 'col-md-9'))->end()
+			->with('Options', array('class' => 'col-md-3'))->end()
+			->end()
+			->tab('Variants')
+			->with('Parameters', array('class' => 'col-md-12'))->end()
+			->end();
+		$formMapper
+			->tab('Product')
+			->with('General')
+			->add('name')
+			->add('shortDescription')
+			//->add('description')
+			->add('description', SimpleFormatterType::class, [
+			'format' => 'richhtml',
+			])
+			->end()
+			->with('Options')
+			->add('categories')
+			->add('media', ModelListType::class, array('required' => false,), array())
+			->end()
+			->end()
+			->tab('Variants')
+			->with('Parameters')
+			->add('productParameters', CollectionType::class, array('label' => 'Parameters', 'required' => false, 'by_reference' => false), array('edit' => 'inline','inline' => 'table'))
+			->end()
 			->end()
 
-		;
+
+			->tab('Documentation')
+			->with('Files')
+			->add('productMedias', CollectionType::class, array('label' => 'Media', 'required' => false, 'by_reference' => false), array('edit' => 'inline','inline' => 'table'))
+			->end()
+			->end()
+
+
+			;
 	}
 
 	/**

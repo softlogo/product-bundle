@@ -49,21 +49,30 @@ class ProductMediaAdmin extends Admin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('itemorder')
-            ->add('type')
+			//->add('type')
+			->add('type', ChoiceType::class, [
+			'choices'  => [
+			'' => null,
+			'PDF' => 1,
+			'CERTIFICATE' => 2,
+			'INSTRUCTION' => 3,
+			'DWG' => 4,
+			'PRODUCT CARD' => 5,
+			],
+			])
 			->add('media', ModelListType::class, array('required' => false,), array())
-        ;
-    }
+			;
+	}
 
-    /**
-     * @param ShowMapper $showMapper
-     */
-    protected function configureShowFields(ShowMapper $showMapper)
-    {
-        $showMapper
-            ->add('id')
-            ->add('itemorder')
-            ->add('type')
-        ;
-    }
+	/**
+	 * @param ShowMapper $showMapper
+	 */
+	protected function configureShowFields(ShowMapper $showMapper)
+	{
+		$showMapper
+			->add('id')
+			->add('itemorder')
+			->add('type')
+			;
+	}
 }

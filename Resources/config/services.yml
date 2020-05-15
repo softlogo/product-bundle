@@ -21,7 +21,7 @@ services:
         class: Softlogo\ProductBundle\Admin\BrandAdmin
         arguments: [~, Softlogo\ProductBundle\Entity\Brand, SonataAdminBundle:CRUD]
         tags:
-            - {name: sonata.admin, manager_type: orm, group: Shop, label: Brands}
+            - {name: sonata.admin, manager_type: orm, group: Shop, label: Brands, show_in_dashboard: false}
 
     softlogo_product.admin.product_media:
         class: Softlogo\ProductBundle\Admin\ProductMediaAdmin

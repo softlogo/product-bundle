@@ -34,11 +34,26 @@ class Product implements ProductInterface
      */
     private $id;
 
+    /**
+     * @var \App\Application\Sonata\MediaBundle\Entity\Media
+     *
+     * @ORM\ManyToOne(targetEntity="\App\Application\Sonata\MediaBundle\Entity\Media")
+     */
+    private $media;
+
+    /**
+     * @var \App\Application\Sonata\MediaBundle\Entity\Media
+     *
+     * @ORM\ManyToOne(targetEntity="\App\Application\Sonata\MediaBundle\Entity\Media")
+     */
+    private $thumbnail;
+
+
 	/**
 	 * @var \ProductMedia
 	 *
 	 * @ORM\OneToMany(targetEntity="ProductMedia", mappedBy="product",cascade={"all"}, orphanRemoval=true)
-	 * @ORM\OrderBy({"itemorder" = "ASC"})
+	 * @ORM\OrderBy({"type" = "ASC"})
 	 */
 	private $productMedias;
 
@@ -46,7 +61,7 @@ class Product implements ProductInterface
 	 * @var \ProductParameter
 	 *
 	 * @ORM\OneToMany(targetEntity="ProductParameter", mappedBy="product",cascade={"all"}, orphanRemoval=true)
-	 * @ORM\OrderBy({"itemorder" = "ASC"})
+	 * @ORM\OrderBy({"prodId" = "ASC"})
 	 */
 	private $productParameters;
 
@@ -80,9 +95,17 @@ class Product implements ProductInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="text")
+     * @ORM\Column(name="description", type="text", nullable=true)
      */
     private $description;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="short_description", type="text", nullable=true)
+     */
+    private $shortDescription;
+
 
     /**
      * @var integer
@@ -446,9 +469,50 @@ class Product implements ProductInterface
 
 
 
+    /**
+     * Set media
+     *
+     * @param \App\Application\Sonata\MediaBundle\Entity\Media $media
+     * @return Product
+     */
+    public function setMedia(\App\Application\Sonata\MediaBundle\Entity\Media $media = null)
+    {
+        $this->media = $media;
+
+        return $this;
+    }
+
+    /**
+     * Get media
+     *
+     * @return \App\Application\Sonata\MediaBundle\Entity\Media 
+     */
+    public function getMedia()
+    {
+        return $this->media;
+    }
 
 
 
+    /**
+     *
+     * @return Product
+     */
+    public function setShortDescription($description)
+    {
+        $this->shortDescription = $description;
+
+        return $this;
+    }
+
+    /**
+     *
+     * @return string 
+     */
+    public function getShortDescription()
+    {
+        return $this->shortDescription;
+    }
 
 
 

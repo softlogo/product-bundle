@@ -35,12 +35,37 @@ class ProductParameter
      */
     private $value;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="value2", type="string", length=255, nullable=true)
+     */
+    private $value2;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="prod_id", type="string", length=255, nullable=true)
+     */
+    private $prodId;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="dimensions", type="string", length=255, nullable=true)
+     */
+    private $dimensions;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="pressure", type="string", length=255, nullable=true)
+     */
+    private $pressure;
 
     /**
      * @var \Softlogo\CMSBundle\Entity\Parameter
      *
      * @ORM\ManyToOne(targetEntity="\Softlogo\CMSBundle\Entity\Parameter")
      */
+    
     private $parameter;
 
     /**
@@ -50,7 +75,8 @@ class ProductParameter
      */
     private $product;
 
-
+    private $type;
+    
 
     /**
      * Get id
@@ -176,5 +202,101 @@ class ProductParameter
     public function getValue()
     {
         return $this->value;
+    }
+
+    /**
+     * Set value2
+     *
+     * @param string $value2
+     *
+     * @return ProductParameter
+     */
+    public function setValue2($value2)
+    {
+        $this->value2 = $value2;
+
+        return $this;
+    }
+
+    /**
+     * Get value2
+     *
+     * @return string
+     */
+    public function getValue2()
+    {
+        return $this->value2;
+    }
+
+    /**
+     * Set prodId
+     *
+     * @param string $prodId
+     *
+     * @return ProductParameter
+     */
+    public function setProdId($prodId)
+    {
+        $this->prodId = $prodId;
+
+        return $this;
+    }
+
+    /**
+     * Get prodId
+     *
+     * @return string
+     */
+    public function getProdId()
+    {
+        return $this->prodId;
+    }
+
+    /**
+     * Set dimensions
+     *
+     * @param string $dimensions
+     *
+     * @return ProductParameter
+     */
+    public function setDimensions($dimensions)
+    {
+        $this->dimensions = $dimensions;
+
+        return $this;
+    }
+
+    /**
+     * Get dimensions
+     *
+     * @return string
+     */
+    public function getDimensions()
+    {
+        return $this->dimensions;
+    }
+
+    /**
+     * Set pressure
+     *
+     * @param string $pressure
+     *
+     * @return ProductParameter
+     */
+    public function setPressure($pressure)
+    {
+        $this->pressure = $pressure;
+
+        return $this;
+    }
+
+    /**
+     * Get pressure
+     *
+     * @return string
+     */
+    public function getPressure()
+    {
+        return $this->pressure;
     }
 }

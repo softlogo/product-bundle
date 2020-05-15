@@ -48,8 +48,10 @@ class ProductParameterAdmin extends Admin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('parameter')
-            ->add('value')
+            ->add('prodId')
+            ->add('dimensions')
+            ->add('pressure')
+
         ;
     }
 
