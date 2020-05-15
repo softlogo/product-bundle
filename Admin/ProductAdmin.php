@@ -11,6 +11,10 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Sonata\Form\Type\CollectionType;
 use Sonata\AdminBundle\Form\Type\ModelListType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Softlogo\ProductBundle\Entity\Product;
+use Softlogo\ProductBundle\Entity\Category;
+use Softlogo\ProductBundle\Entity\CategoryRepository;
 
 class ProductAdmin extends Admin
 {

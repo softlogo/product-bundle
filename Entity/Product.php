@@ -13,6 +13,14 @@ use Softlogo\ShopBundle\Model\ProductInterface;
  */
 class Product implements ProductInterface
 {
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->productMedias = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
 
 	public function __toString(){
 		return $this->getName()."";
@@ -242,13 +250,6 @@ class Product implements ProductInterface
     {
         return $this->category;
     }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->productMedias = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
     /**
      * Add productMedias
@@ -424,22 +425,6 @@ class Product implements ProductInterface
     {
         return $this->contents;
     }
-
-    /**
-     *
-     * @return Product
-     */
-
-    public function getProduct()
-    {
-        return $this->product;;
-    }
-
-
-
-
-
-
 
     public function addCategory(\Softlogo\ProductBundle\Entity\Category $category)
     {
