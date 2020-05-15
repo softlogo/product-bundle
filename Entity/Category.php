@@ -3,6 +3,8 @@
 namespace Softlogo\ProductBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\Translatable\Translatable;
 
 /**
  * Category
@@ -10,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Softlogo\ProductBundle\Entity\CategoryRepository")
  */
-class Category
+class Category implements Translatable
 {
 	public function __toString(){
 		if($this->getParent()){
@@ -40,6 +42,7 @@ class Category
     /**
      * @var string
      *
+ 	 * @Gedmo\Translatable
      * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
@@ -47,6 +50,7 @@ class Category
     /**
      * @var string
      *
+ 	 * @Gedmo\Translatable
      * @ORM\Column(name="description", type="text", nullable=true)
      */
     private $description;

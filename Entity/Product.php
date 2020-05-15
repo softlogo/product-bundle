@@ -4,6 +4,8 @@ namespace Softlogo\ProductBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Softlogo\ShopBundle\Model\ProductInterface;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\Translatable\Translatable;
 
 /**
  * Product
@@ -11,7 +13,7 @@ use Softlogo\ShopBundle\Model\ProductInterface;
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Softlogo\ProductBundle\Entity\ProductRepository")
  */
-class Product implements ProductInterface
+class Product implements ProductInterface, Translatable
 {
     /**
      * Constructor
@@ -95,6 +97,7 @@ class Product implements ProductInterface
     /**
      * @var string
      *
+ 	 * @Gedmo\Translatable
      * @ORM\Column(name="description", type="text", nullable=true)
      */
     private $description;
@@ -102,6 +105,7 @@ class Product implements ProductInterface
     /**
      * @var string
      *
+ 	 * @Gedmo\Translatable
      * @ORM\Column(name="short_description", type="text", nullable=true)
      */
     private $shortDescription;
