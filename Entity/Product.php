@@ -15,7 +15,7 @@ class Product implements ProductInterface
 {
 
 	public function __toString(){
-		return $this->getName();
+		return $this->getName()."";
 	}
     /**
      * @var integer
@@ -48,6 +48,12 @@ class Product implements ProductInterface
 	 * @ORM\ManyToOne(targetEntity="Category")
 	 */
 	private $category;
+
+	/**
+	 *
+	 *@ORM\ManyToMany(targetEntity="Category", inversedBy="products")
+	 */
+	private $categories;
 
     /**
      * @var string
@@ -213,28 +219,6 @@ class Product implements ProductInterface
         return $this->stock;
     }
 
-    /**
-     * Set categories
-     *
-     * @param array $categories
-     * @return Product
-     */
-    public function setCategories($categories)
-    {
-        $this->categories = $categories;
-
-        return $this;
-    }
-
-    /**
-     * Get categories
-     *
-     * @return array 
-     */
-    public function getCategories()
-    {
-        return $this->categories;
-    }
 
     /**
      * Set category
@@ -440,4 +424,49 @@ class Product implements ProductInterface
     {
         return $this->contents;
     }
+
+    /**
+     *
+     * @return Product
+     */
+
+    public function getProduct()
+    {
+        return $this->product;;
+    }
+
+
+
+
+
+
+
+    public function addCategory(\Softlogo\ProductBundle\Entity\Category $category)
+    {
+    	$category->addProduct($this);
+        $this->categories[] = $category;
+
+        return $this;
+    }
+
+    public function removeCategory(\Softlogo\ProductBundle\Entity\Category $category)
+    {
+        $this->categories->removeElement($category);
+    }
+
+    public function getCategories()
+    {
+        return $this->categories;
+    }
+
+
+
+
+
+
+
+
+
+
+
 }

@@ -13,7 +13,9 @@ use Doctrine\ORM\Mapping as ORM;
 class Category
 {
 	public function __toString(){
-		return $this->getParent()." -- ".$this->getName();
+		if($this->getParent()){
+			return $this->getParent()." : ".$this->getName();
+		}else return $this->getName();
 	}
 	public function getFullName(){
 		return $this->__toString();
@@ -70,7 +72,7 @@ class Category
     private $categories;
 
 	/**
-	 * @ORM\OneToMany(targetEntity="Product", mappedBy="category", cascade="persist", orphanRemoval=true)
+	 * @ORM\ManyToMany(targetEntity="Product", mappedBy="categories", cascade="persist", orphanRemoval=false)
 	 * @ORM\OrderBy({"itemorder" = "ASC"})
      */
     private $products;
@@ -269,13 +271,13 @@ class Category
     /**
      * Add products
      *
-     * @param \Softlogo\ProductBundle\Entity\Product $products
+     * @param \Softlogo\ProductBundle\Entity\Product $product
      * @return Category
      */
-    public function addProduct(\Softlogo\ProductBundle\Entity\Product $products)
+    public function addProduct(\Softlogo\ProductBundle\Entity\Product $product)
     {
-		$products->setCategory($this);
-        $this->products[] = $products;
+		//$products->setCategory($this);
+        $this->products[] = $product;
 
         return $this;
     }
@@ -283,11 +285,11 @@ class Category
     /**
      * Remove products
      *
-     * @param \Softlogo\ProductBundle\Entity\Product $products
+     * @param \Softlogo\ProductBundle\Entity\Product $product
      */
-    public function removeProduct(\Softlogo\ProductBundle\Entity\Product $products)
+    public function removeProduct(\Softlogo\ProductBundle\Entity\Product $product)
     {
-        $this->products->removeElement($products);
+        $this->products->removeElement($product);
     }
 
     /**

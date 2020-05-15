@@ -21,8 +21,17 @@ class ProductAdmin extends Admin
 	{
 		$datagridMapper
 			->add('name')
-			->add('price')
-			->add('stock')
+			->add('categories', null, array('show_filter'=>true), EntityType::class, array(
+				'class' => Category::class,
+				'query_builder' => function(CategoryRepository $er) {
+					return $er->createQueryBuilder('u')
+						->leftJoin('u.parent', 'p')
+						->where('u.parent is not null')
+						->groupBy('u.id')
+						->orderBy('p.id', 'ASC')
+						;
+				}
+		))
 			;
 	}
 
@@ -36,9 +45,7 @@ class ProductAdmin extends Admin
 			//->add('firstProductMedia.media', 'sonata_type_model_list', array('template' => 'SoftlogoShopBundle:Admin:list-image.html.twig'), array('link_parameters' => array('context' => 'Foto')))
 			->add('name')
 			//->add('firstProductMedia.media')
-			->add('price')
-			->add('stock')
-			->add('category')
+			->add('categories')
 			->add('_action', 'actions', array(
 				'actions' => array(
 					'show' => array(),
