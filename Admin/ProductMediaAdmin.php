@@ -35,7 +35,6 @@ class ProductMediaAdmin extends Admin
             ->add('type')
             ->add('_action', 'actions', array(
                 'actions' => array(
-                    'show' => array(),
                     'edit' => array(),
                     'delete' => array(),
                 )
@@ -60,7 +59,8 @@ class ProductMediaAdmin extends Admin
 			'PRODUCT CARD' => 5,
 			],
 			])
-			->add('media', ModelListType::class, array('required' => false,), array())
+			->add('media', ModelListType::class, array('required' => false,), array('link_parameters' => array('context' => 'Documentation')))
+
 			;
 	}
 

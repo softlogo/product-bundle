@@ -55,17 +55,16 @@ class ProductAdmin extends Admin
 	{
 		$listMapper
 
-			//->add('firstProductMedia.media', 'sonata_type_model_list', array('template' => 'SoftlogoShopBundle:Admin:list-image.html.twig'), array('link_parameters' => array('context' => 'Foto')))
+			//->add('media')
+			->add('media', null, array('template' => 'SoftlogoShopBundle:Admin:list-image.html.twig'), array('link_parameters' => array('context' => 'Default')))
 			//->add('id')
 			->add('name')
-			//->add('firstProductMedia.media')
 			->add('categories')
 			->add('isCard', null, array('editable' =>false))
 			->add('isDocumentation', null, array('editable' => false))
 			//->add('firstProductMedia.media')
 			->add('_action', 'actions', array(
 				'actions' => array(
-					'show' => array(),
 					'edit' => array(),
 					'delete' => array(),
 				)
