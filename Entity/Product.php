@@ -13,7 +13,7 @@ use Gedmo\Translatable\Translatable;
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Softlogo\ProductBundle\Entity\ProductRepository")
  */
-class Product implements ProductInterface, Translatable
+class Product implements  Translatable
 {
     /**
      * Constructor
@@ -21,6 +21,23 @@ class Product implements ProductInterface, Translatable
     public function __construct()
     {
         $this->productMedias = new \Doctrine\Common\Collections\ArrayCollection();
+
+		$pdf=new ProductMedia();
+		$pdf->setType(1);
+		$ce=new ProductMedia();
+		$ce->setType(2);
+		$dtr=new ProductMedia();
+		$dtr->setType(3);
+		$dwg=new ProductMedia();
+		$dwg->setType(4);
+		$card=new ProductMedia();
+		$card->setType(5);
+		$this->addProductMedia($pdf);
+		$this->addProductMedia($ce);
+		$this->addProductMedia($dtr);
+		$this->addProductMedia($dwg);
+		$this->addProductMedia($card);
+
     }
 
 
@@ -35,6 +52,21 @@ class Product implements ProductInterface, Translatable
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
+
+	 /**
+	 * @var boolean
+	 * @ORM\Column(type="boolean", nullable=true, options={"default" = true})
+	 */
+	private $isCard;
+
+	 /**
+	 * @var boolean
+	 * @ORM\Column(type="boolean", nullable=true, options={"default" = true})
+	 */
+	private $isDocumentation;
+
+
 
     /**
      * @var \App\Application\Sonata\MediaBundle\Entity\Media
@@ -68,11 +100,6 @@ class Product implements ProductInterface, Translatable
 	private $productParameters;
 
 
-	/**
-	 *
-	 * @ORM\ManyToOne(targetEntity="Category")
-	 */
-	private $category;
 
 	/**
 	 *
@@ -90,7 +117,7 @@ class Product implements ProductInterface, Translatable
     /**
      * @var integer
      *
-     * @ORM\Column(name="price", type="integer")
+     * @ORM\Column(name="price", type="integer", nullable=true)
      */
     private $price;
 
@@ -109,43 +136,6 @@ class Product implements ProductInterface, Translatable
      * @ORM\Column(name="short_description", type="text", nullable=true)
      */
     private $shortDescription;
-
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="stock", type="integer")
-     */
-    private $stock;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="weight", type="decimal", nullable=true)
-     */
-    private $weight;
-
-	/**
-	 *
-	 * @ORM\ManyToOne(targetEntity="Softlogo\ShopBundle\Entity\ShippingPack")
-	 */
-	private $shippingPackage;
-
-    /**
-     * @var string
-     *
-	 * @ORM\ManyToOne(targetEntity="Softlogo\ShopBundle\Entity\ShippingCalculationType")
-     */
-
-    private $shippingCalculationType;
-
-
-	/**
-	 *
-	 * @ORM\OneToMany(targetEntity="Softlogo\CMSBundle\Entity\Content", mappedBy="product",cascade={"all"}, orphanRemoval=true)
-	 */
-	private $contents;
-
 
 
 
@@ -185,28 +175,6 @@ class Product implements ProductInterface, Translatable
         return $this->name;
     }
 
-    /**
-     * Set price
-     *
-     * @param integer $price
-     * @return Product
-     */
-    public function setPrice($price)
-    {
-        $this->price = $price;
-
-        return $this;
-    }
-
-    /**
-     * Get price
-     *
-     * @return integer 
-     */
-    public function getPrice()
-    {
-        return $this->price;
-    }
 
     /**
      * Set description
@@ -231,52 +199,6 @@ class Product implements ProductInterface, Translatable
         return $this->description;
     }
 
-    /**
-     * Set stock
-     *
-     * @param integer $stock
-     * @return Product
-     */
-    public function setStock($stock)
-    {
-        $this->stock = $stock;
-
-        return $this;
-    }
-
-    /**
-     * Get stock
-     *
-     * @return integer 
-     */
-    public function getStock()
-    {
-        return $this->stock;
-    }
-
-
-    /**
-     * Set category
-     *
-     * @param \Softlogo\ProductBundle\Entity\Category $category
-     * @return Product
-     */
-    public function setCategory(\Softlogo\ProductBundle\Entity\Category $category = null)
-    {
-        $this->category = $category;
-
-        return $this;
-    }
-
-    /**
-     * Get category
-     *
-     * @return \Softlogo\ProductBundle\Entity\Category 
-     */
-    public function getCategory()
-    {
-        return $this->category;
-    }
 
     /**
      * Add productMedias
@@ -312,77 +234,6 @@ class Product implements ProductInterface, Translatable
         return $this->productMedias;
     }
 
-    /**
-     * Set weight
-     *
-     * @param string $weight
-     *
-     * @return Product
-     */
-    public function setWeight($weight)
-    {
-        $this->weight = $weight;
-
-        return $this;
-    }
-
-    /**
-     * Get weight
-     *
-     * @return string
-     */
-    public function getWeight()
-    {
-        return $this->weight;
-    }
-
-    /**
-     * Set shippingPackage
-     *
-     * @param \Softlogo\ShopBundle\Entity\ShippingPack $shippingPackage
-     *
-     * @return Product
-     */
-    public function setShippingPackage(\Softlogo\ShopBundle\Entity\ShippingPack $shippingPackage = null)
-    {
-        $this->shippingPackage = $shippingPackage;
-
-        return $this;
-    }
-
-    /**
-     * Get shippingPackage
-     *
-     * @return \Softlogo\ShopBundle\Entity\ShippingPack
-     */
-    public function getShippingPackage()
-    {
-        return $this->shippingPackage;
-    }
-
-    /**
-     * Set shippingCalculationType
-     *
-     * @param \Softlogo\ShopBundle\Entity\ShippingCalculationType $shippingCalculationType
-     *
-     * @return Product
-     */
-    public function setShippingCalculationType(\Softlogo\ShopBundle\Entity\ShippingCalculationType $shippingCalculationType = null)
-    {
-        $this->shippingCalculationType = $shippingCalculationType;
-
-        return $this;
-    }
-
-    /**
-     * Get shippingCalculationType
-     *
-     * @return \Softlogo\ShopBundle\Entity\ShippingCalculationType
-     */
-    public function getShippingCalculationType()
-    {
-        return $this->shippingCalculationType;
-    }
 
     /**
      * Add productParameter
@@ -419,39 +270,6 @@ class Product implements ProductInterface, Translatable
         return $this->productParameters;
     }
 
-    /**
-     * Add content
-     *
-     * @param \Softlogo\CMSBundle\Entity\Content $content
-     *
-     * @return Product
-     */
-    public function addContent(\Softlogo\CMSBundle\Entity\Content $content)
-    {
-        $this->contents[] = $content;
-
-        return $this;
-    }
-
-    /**
-     * Remove content
-     *
-     * @param \Softlogo\CMSBundle\Entity\Content $content
-     */
-    public function removeContent(\Softlogo\CMSBundle\Entity\Content $content)
-    {
-        $this->contents->removeElement($content);
-    }
-
-    /**
-     * Get contents
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getContents()
-    {
-        return $this->contents;
-    }
 
     public function addCategory(\Softlogo\ProductBundle\Entity\Category $category)
     {
@@ -517,6 +335,27 @@ class Product implements ProductInterface, Translatable
     {
         return $this->shortDescription;
     }
+
+	public function isCard(){
+		$files =Array();
+		foreach($this->getProductMedias() as $pm){
+		if($pm->getType()==5 && $pm->getMedia())
+
+		return true;
+		}return false;
+	}
+	public function isDocumentation(){
+		$types=Array();
+		foreach($this->getProductMedias() as $pm){
+			if($pm->getMedia()){
+				$types[]=$pm->getType();
+			}
+		}
+		if(array_diff(Array(1,2,3,4),$types)==false){
+		return true;
+		}else return false;
+
+	}
 
 
 

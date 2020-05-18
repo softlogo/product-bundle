@@ -24,14 +24,14 @@ class ProductMedia
     /**
      * @var integer
      *
-     * @ORM\Column(name="itemorder", type="integer")
+     * @ORM\Column(name="itemorder", type="integer", nullable=true)
      */
     private $itemorder;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="type", type="integer")
+     * @ORM\Column(name="type", type="integer", nullable=true)
      */
     private $type;
 
