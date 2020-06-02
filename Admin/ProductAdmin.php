@@ -60,8 +60,10 @@ class ProductAdmin extends Admin
 			//->add('id')
 			->add('name')
 			->add('categories')
-			->add('isCard', null, array('editable' =>false))
-			->add('isDocumentation', null, array('editable' => false))
+			->add('docPL', null, array('editable' => false))
+			->add('docEN', null, array('editable' => false))
+			->add('docDE', null, array('editable' => false))
+			->add('docDK', null, array('editable' => false))
 			//->add('firstProductMedia.media')
 			->add('_action', 'actions', array(
 				'actions' => array(

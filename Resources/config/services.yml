@@ -1,10 +1,19 @@
-parameters:
-#    softlogo_product.example.class: Softlogo\ProductBundle\Example
-
 services:
-#    softlogo_product.example:
-#        class: %softlogo_product.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
+
+    Softlogo\ProductBundle\EventListener\ProductPreparer:
+        tags:
+            -
+                name: 'doctrine.event_listener'
+                # this is the only required option for the lifecycle listener tag
+                event: 'prePersist'
+
+                # listeners can define their priority in case multiple listeners are associated
+                # to the same event (default priority = 0; higher numbers = listener is run earlier)
+                priority: 500
+
+                # you can also restrict listeners to a specific Doctrine connection
+                connection: 'default'
+
     softlogo_product.admin.product:
         class: Softlogo\ProductBundle\Admin\ProductAdmin
         arguments: [~, Softlogo\ProductBundle\Entity\Product, SonataAdminBundle:CRUD]

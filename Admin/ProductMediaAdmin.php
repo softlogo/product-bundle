@@ -46,20 +46,23 @@ class ProductMediaAdmin extends Admin
      * @param FormMapper $formMapper
      */
     protected function configureFormFields(FormMapper $formMapper)
-    {
-        $formMapper
-			//->add('type')
-			->add('type', ChoiceType::class, [
-			'choices'  => [
-			'' => null,
+	{
+
+		$choices= [
+			//'' => null,
 			'PDF' => 1,
-			'CERTIFICATE' => 2,
-			'INSTRUCTION' => 3,
+			'CE' => 2,
+			'DTR' => 3,
 			'DWG' => 4,
-			'PRODUCT CARD' => 5,
-			],
+			'CARD' => 5,
+			];
+		$context=($c=array_search($this -> getSubject() -> getType(), $choices)) ? $c : 'PDF';
+        $formMapper
+            ->add('language')
+			->add('type', ChoiceType::class, [
+			'choices'  =>$choices,
 			])
-			->add('media', ModelListType::class, array('required' => false,), array('link_parameters' => array('context' => 'Documentation')))
+			->add('media', ModelListType::class, array('required' => false,), array('link_parameters' => array('context' => $context )))
 
 			;
 	}

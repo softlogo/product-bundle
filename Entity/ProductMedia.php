@@ -50,7 +50,11 @@ class ProductMedia
      */
     private $product;
 
-
+    /**
+     *
+     * @ORM\ManyToOne(targetEntity="\Softlogo\CMSBundle\Entity\Language")
+     */
+    private $language;
 
     /**
      * Get id
@@ -153,4 +157,29 @@ class ProductMedia
     {
         return $this->product;
     }
+
+
+    public function setLanguage(\Softlogo\CMSBundle\Entity\Language $language = null)
+    {
+        $this->language = $language;
+
+        return $this;
+    }
+
+    public function getLanguage()
+    {
+        return $this->language;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 }

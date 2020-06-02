@@ -22,21 +22,6 @@ class Product implements  Translatable
     {
         $this->productMedias = new \Doctrine\Common\Collections\ArrayCollection();
 
-		$pdf=new ProductMedia();
-		$pdf->setType(1);
-		$ce=new ProductMedia();
-		$ce->setType(2);
-		$dtr=new ProductMedia();
-		$dtr->setType(3);
-		$dwg=new ProductMedia();
-		$dwg->setType(4);
-		$card=new ProductMedia();
-		$card->setType(5);
-		$this->addProductMedia($pdf);
-		$this->addProductMedia($ce);
-		$this->addProductMedia($dtr);
-		$this->addProductMedia($dwg);
-		$this->addProductMedia($card);
 
     }
 
@@ -66,7 +51,30 @@ class Product implements  Translatable
 	 */
 	private $isDocumentation;
 
+	 /**
+	 * @var boolean
+	 * @ORM\Column(type="boolean", nullable=true, options={"default" = true})
+	 */
+	private $docPL;
 
+
+	 /**
+	 * @var boolean
+	 * @ORM\Column(type="boolean", nullable=true, options={"default" = true})
+	 */
+	private $docEN;
+
+	 /**
+	 * @var boolean
+	 * @ORM\Column(type="boolean", nullable=true, options={"default" = true})
+	 */
+	private $docDE;
+
+	 /**
+	 * @var boolean
+	 * @ORM\Column(type="boolean", nullable=true, options={"default" = true})
+	 */
+	private $docDK;
 
     /**
      * @var \App\Application\Sonata\MediaBundle\Entity\Media
@@ -87,7 +95,7 @@ class Product implements  Translatable
 	 * @var \ProductMedia
 	 *
 	 * @ORM\OneToMany(targetEntity="ProductMedia", mappedBy="product",cascade={"all"}, orphanRemoval=true)
-	 * @ORM\OrderBy({"type" = "ASC"})
+	 * @ORM\OrderBy({"language" = "ASC", "type"="ASC"})
 	 */
 	private $productMedias;
 
@@ -355,6 +363,33 @@ class Product implements  Translatable
 		return true;
 		}else return false;
 
+	}
+
+	private function docLang($abbr){
+		$types=Array();
+		foreach($this->getProductMedias() as $pm){
+			$docAbbr=($docLanguage = $pm->getLanguage()) ? $docLanguage->getAbbr() : '';
+			if($pm->getMedia() && $docAbbr==$abbr){
+				$types[]=$pm->getType();
+			}
+		}
+		if(array_diff(Array(1,2,3,4,5),$types)==false){
+			return true;
+		}else return false;
+
+	}
+
+	public function isDocPL(){
+		return $this->docLang('pl');
+	}
+	public function isDocEN(){
+		return $this->docLang('en');
+	}
+	public function isDocDE(){
+		return $this->docLang('de');
+	}
+	public function isDocDK(){
+		return $this->docLang('dk');
 	}
 
 
