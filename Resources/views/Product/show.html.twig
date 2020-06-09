@@ -1,139 +1,209 @@
 {% extends "SoftlogoProductBundle:Product:index.html.twig" %}
 
-{% block title %}
-<title>{{entity.name}}</title>
-{% endblock %}
+{% block title%}{{ entity.name}}{% endblock title%}
+{% block seo%}
+<meta name="keywords" content="{% for category in entity.categories %} {{category.name}}, {% endfor %}">
+<meta name="keywords" content="">
+{% endblock seo %}
+
+{% block breadcrumps %}	
+<div class="breadcrumps">
+	<div class="container">
+		<span>
+		<a href="/{{app.request.locale}}">{% trans %}Home{% endtrans %}</a>->
+	    {% if entity.category.page %}
+            {% set catPages = entity.category.page %}
+            {% if catPages[0] %}
+            	{% set catPage = catPages[0]  %}   
+    		<a href="{{ path('cms_page',{anchor:catPage.anchor}) }}">
+    	    {{ catPage.name }}
+    		</a>->
+    		{% endif %}
+		{% endif %}
+		<a href="{{entity.category.id is defined ? path('product_cat',{'id':entity.category.id}) : '#' }}">
+			{{entity.category.name is defined ? entity.category.name|capitalize}}
+		</a>	-><a href="">{{entity.name}}</a>				
+		</span>
+	</div>
+</div>
+{% endblock breadcrumps %}	
 
 {% block style %}
 {{parent()}}
-<style type="text/css">
-.form-standard .btn, input[type="submit"],.form-standard  input[type="button"],.form-standard  button.btn,.form-standard  .btn-primary {
-		margin:0;
-	}
-</style>
 {% endblock %}
-{% block breadcrumb %}	
-<li>
-<a href="/">Home</a>
-</li>
-<li><a href="/pl/shop">Sklep</a></li>
-<li class="active"><a href="/pl/shop/category/{{entity.category.id}}">{{entity.category.name}}</a></li>
-<li class="active"><a href="/pl/shop/{{entity.id}}/show">{{entity.name}}</a></li>
-{% endblock breadcrumb %}	
 
-{% block content -%}
-<div class="body-wrapper">
+{% block script%}
+{{parent()}}
+<script>
+function addProducts(productId, productDimensions, productPressure, productQuantity, productName,productSrc) {
+	if (localStorage.getItem('cart') === null) {
+		var cart = {};
+		cart.products = [];
+		localStorage.setItem('cart', JSON.stringify(cart));
+	}
+	
+	var product = {};
+		product.name = productName;
+		product.src = productSrc;
+		product.id = productId;
+		product.dimensions  = productDimensions;
+		product.pressure = productPressure;
+		product.quantity = parseInt(productQuantity);
+	var cart = JSON.parse(localStorage.getItem('cart'));
+	var cartLength = cart.products.length;
+	if(cartLength >0){
+		for (i=0;i<cartLength;i++){
+			productInBasket = false;
+			if(cart.products[i].id == productId){
+    			productInBasket = true;
+    			break;
+			}
+		}	
+		if(productInBasket){
+			cart.products[i].quantity += parseInt(productQuantity);  
+			localStorage.setItem("cart", JSON.stringify(cart)); 
+		}else{
+			cart.products.push(product);
+			localStorage.setItem('cart', JSON.stringify(cart));
+		}	
+	}else{
+		cart.products.push(product);
+		localStorage.setItem('cart', JSON.stringify(cart));
+	}
+	return cartLength;
+}
+
+jQuery(document).ready(function($){
+	if (localStorage.getItem('cart') === null) {
+		var cart = {};
+		cart.products = [];
+		localStorage.setItem('cart', JSON.stringify(cart));
+	}
+
+		
+	
+
+	$( ".product-form" ).on( "submit", function( event ) {
+		event.preventDefault();
+		var productName = $('.product-name').text();
+		var productSrc = '{{app.request.uri}}';
+		var cartLength = false;
+		$(this).find('tbody tr').each(function(index, value){
+			var productId = $(this).find('.product-id').text();
+			var productDimensions = $(this).find('.product-dimensions').text();
+			var productPressure = $(this).find('.product-pressure').text();
+			var productQuantity = $(this).find('.product-quantity').val();
+			if(parseInt(productQuantity) > 0 ){
+				addProducts(productId, productDimensions, productPressure, productQuantity, productName,productSrc);
+			}
+		});
+		var linkToBasket = $('#basket-link').prop('href');
+		window.location.replace(linkToBasket);
+		
+	});
+});
+</script>
+{% endblock %}
+{% block menuBottomMain %}
+<div class="menu-bottom-main">
 	<div class="container">
-		<div class="row">
-			<div class="col-md-12 col-sm-12">
-				<h1>{{entity.name}}</h1>
-			</div>
-			<div class="col-md-6 col-sm-6">
+		{{render_page_cat({parent: categoryMain, menu: 'on', category: entity.category.id})|raw}}			
+	</div>
+</div>
+{% endblock menuBottomMain %}
+{% block productContent %}
 
-
-				<!-- Blog Post -->
-
-
-				<div class="portfolio-single-image cycle-slideshow"
-					data-cycle-slides="> .slider-img"
-					data-cycle-swipe="true"
-					data-cycle-prev=".cycle-prev"
-					data-cycle-next=".cycle-next"
-					data-cycle-timeout=0>
-					<div class="fa fa-chevron-right cycle-next"></div>
-					<div class="fa fa-chevron-left cycle-prev"></div>
-					<div class="cycle-pager"></div>
-					{% for pm in entity.productMedias %}
-					<div class="slider-img">
-						<img src="{% path pm.media, 'large' %}" alt="" class="img-responsive"/>
-					</div>
-					{% endfor %}
-
+<div class="col-xs-12 col-sm-9 product-info">
+	<h3 class="product-name">{{entity.name}}</h3>
+		<h4>{{entity.shortDescription|raw}}</h4>
+	<div class="col-xs-12 col-sm-6 reset-padding product-div">
+	  <div class="img-cont">
+        {% if entity.media  %}
+        	<img id="img-{{entity.id}}" src="{% path entity.media, 'big' %}" alt="{{ entity.media.name }}" class="img-responsive col-xs-12 reset-padding" />		{# style="background-color: #81b8b2;" #}	
+        {% else %}
+        	<img id="img-{{entity.id}}" src="/img/blank.png" alt="{{entity.id}}" class="img-responsive col-xs-12 reset-padding"  /> {# style="background-color: #81b8b2;" #}
+        {% endif %}
+	  </div>
+	</div>
+	<div class="col-xs-12 col-sm-6 text-cont product-div">
+			{{entity.shortdescription |raw }}
+	</div>
+	<div class="col-xs-12 reset-padding padding40up product-tabs">
+		<ul class="nav nav-tabs">
+			<li class="active"><a data-toggle="tab" href="#characteristic">{% trans %}Charakterystyka{% endtrans %}</a></li>
+			<li ><a data-toggle="tab" href="#documentation">{% trans %}Dokumentacja{% endtrans %}</a></li>
+			<li ><a data-toggle="tab" href="#cases">{% trans %}Realizacje{% endtrans %}</a></li>
+		</ul>
+		<div class="tab-content">
+			<div id="characteristic" class="table-form tab-pane fade in active">
+				<div class="col-xs-12 reset-padding text-justify">
+        			{{entity.description |raw }}
 				</div>
-
-				<br />
-				<br />
-
-
-
-				<a href="/pl/shop/category/{{entity.category.id}}">Powrót do listy produktów</a>
-			</div>
-			<div class="col-md-6 col-sm-6">
-
-				<div class="sidebar">
-
-					<!-- Sidebar Block -->
-					<!-- Sidebar Block -->
-
-
-					<!-- Sidebar Block -->
-					<!-- Sidebar Block -->
-
-
-					<!-- Sidebar Block -->
-					<!-- Sidebar Block -->
-
-
-					<h3>Cena {{(entity.price/1.23) |round(2)}} zł <small>({{(entity.price) | round(2)}} zł brutto)</small></h3>
-					{{ form_start(form, { 'style': 'inline form-standard' }) }}
-					<div class="hidden">
-
-					</div>
-					{{form_row(form.quantity)}}
-					{{ form_end(form) }}
-					<br />
-
-					<p>{{entity.description}}</p>
-					<br />
-
-					{% if entity.productParameters.count>0%}
-
-					<h3 class="h3-sidebar-title sidebar-title">Atrybuty</h3>
-
-					<table class="table table-bordered table-striped">
-						<tbody>
-
-						{% for pp in entity.productParameters %}
+				<div class="row"></div>
+				<form class="product-form" action="" method="post">
+				<div class="table-description col-sm-8 reset-padding">{% trans %}Dodaj produkty do koszyka{% endtrans %}</div>
+				<div class="table-responsive col-sm-8 reset-padding">
+					<table class="table">
+						<thead>
 							<tr>
-								<th>{{pp.parameter.name}}</th>
-								<td>{{pp.value}}</td>
+								<th>{% trans %}Symbol{% endtrans %}</th>
+								<th>{% trans %}Wymiary{% endtrans %}</th>
+								<th>{% trans %}Ciśnienie{% endtrans %}</th>
+								<th>{% trans %}Ilość{% endtrans %}</th>
 							</tr>
-						{% endfor %}
+						</thead>
+						<tbody>
+							{% for param in entity.productParameters %}
+							<tr>
+								<td><span class="product-id">{{ param.prodId }}</span></td>
+								<td><span class="product-dimensions">{{ param.dimensions }}</span></td>
+								<td><span class="product-pressure">{{ param.pressure }}</span></td>							
+								<td><input type="number" name="product[quantity]" class="product-quantity" min="0" value="0" /></td>
+							</tr>
+							{% endfor %}
 						</tbody>
 					</table>
-					<br />
-
-					{% endif %}
-<!--
-   -                    <div class="sidebar-block">
-   -                        <h3 class="h3-sidebar-title sidebar-title">tagi</h3>
-   -
-   -                        <div class="sidebar-content tags">
-   -                            <a href="">Klimatyzacja</a>
-   -                            <a href="">Sprężarka inwerterowa</a>
-   -                            <a href="">MULTI V IV</a>
-   -                            <a href="">HiPOR</a>
-   -                            <a href="">LG</a>
-   -                        </div>
-   -                    </div>
-   -->
-
 				</div>
-				<!-- //Blog Post// -->
+				<div class="btn-right col-sm-8 reset-padding" style="height: 50px;">
+					<input type="submit" class="btn btn-primary btn-submit" value="{%trans%}Dodaj{%endtrans%}" /> 
+					<div id="result"></div>
+				</div>
+				</form>
 
-				<!-- About The Author -->
-
-
-
-
-
+				<div class="col-xs-12 reset-padding garniture-cont">
+					<h4>{% trans %}Dodatki{% endtrans %}</h4>
+					<div class="row">
+					{{ render_section_by_id({'id': 1})|raw }}
+					</div>
+				</div>
+				
 			</div>
-
-
+			<div id="documentation" class="tab-pane fade  ">
+				
+    				<h3>{% trans %}Dokumentacja{% endtrans %}</h3>
+					<div class="text-justify"></div>
+                {% for file in entity.productMedias|mediaType(['PDF', 'CE', 'DTR', 'DWG'])%}
+				{{ loop.index is odd ? '<div class="row">' }}
+                    <div class="col-xs-6 text-left">
+						<a href="{% path file.media, 'reference' %}" style="display: inline-block; height: 50px;" target="_blank">
+							<img src="/img/pdf.png" style="display: inline-block; max-height: 100%; margin: auto;"  class="img-responsive" title="{{ file.type }}" alt="{{ file.type }}"/>
+						</a>
+                    Typ:{{ file.type }}, {{ file.media.name }}
+					</div>
+					{#<span style="padding-right: 20px;"	>{{ file.type }}: </span><a href="{% path file.media, 'reference' %}" target="_blank">{{ file.media.name }}</a></div>#}
+        		{{ loop.index is even ? '</div>' }}
+				{%endfor%}
+				<br><br>
+			</div>
+			<div id="cases" class="tab-pane fade  ">
+			<br>
+				<div class="col-xs-12 reset-padding text-justify">
+        			{{entity.shortdescription |raw }}
+				</div>
+				{#{ render_portfolios_by_length ({'length': 2}) }#}
+			</div>	
 		</div>
-	</div>
-
-
-
-
-	{% endblock %}
+	</div><!--  product-tabs -->
+	
+</div>
+{% endblock %}
