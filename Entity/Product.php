@@ -306,6 +306,9 @@ class Product implements  Translatable
     }
 
 
+	public function getCategory(){
+		return $this->getCategories()->first();
+	}
 
     /**
      * Set media
