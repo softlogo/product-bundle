@@ -63,8 +63,22 @@ class ProductController extends Controller
 			'entities' => $pagination,
 			'categories' => $categories,
 			'category' => null,
+			'categoryMain' => null,
 		));
 	}
+
+
+	public function garnitureAction(Request $request)
+	{
+		$em 		= $this->getDoctrine()->getManager();
+		$locale 	= $request->getLocale();
+		$language 	= $em->getRepository('SoftlogoCMSBundle:Language')->findOneBy(array('abbr'=>$locale));
+		$entities	= $em->getRepository('SoftlogoCMSBundle:Article')->findBy(array('section' => 1), array());
+		return $this->render('SoftlogoProductBundle:Product:garniture.html.twig', array(
+			'entities' => $entities,
+		));
+	}
+
 
 
 	/**
@@ -113,6 +127,7 @@ class ProductController extends Controller
 			'entities' => $pagination,
 			'categories' => $categories,
 			'category' => $category,
+			'categoryMain' => $category->getParent(),
 		));
 	}
 

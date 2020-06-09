@@ -27,7 +27,7 @@ class ProductRepository extends EntityRepository
     }
 
     public function findByCategoryQuery($id){   
-        $qb = $this->createQueryBuilder('a')->join('a.category', 'c');
+        $qb = $this->createQueryBuilder('a')->join('a.categories', 'c');
         $qb->andWhere('c.id = :id')
             ->setParameter('id', $id);
 		$query=$qb->getQuery();

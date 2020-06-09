@@ -130,6 +130,14 @@ class Product implements  Translatable
     private $price;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="number", type="integer", nullable=true)
+     */
+    private $number;
+
+
+    /**
      * @var string
      *
  	 * @Gedmo\Translatable
@@ -393,6 +401,17 @@ class Product implements  Translatable
 	}
 
 
+    public function setNumber($number)
+    {
+        $this->number = $number;
+
+        return $this;
+    }
+
+    public function getNumber()
+    {
+        return $this->number;
+    }
 
 
 

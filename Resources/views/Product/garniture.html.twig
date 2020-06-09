@@ -1,0 +1,50 @@
+{% extends "@home/Layout.html.twig" %}
+
+{% block title %}{% trans %}Akcesoria{% endtrans %}{% endblock %}
+
+{% block breadcrumps %}	
+<div class="breadcrumps">
+	<div class="container">
+		<span>
+		<a href="/{{app.request.locale}}">Home</a>-><a href="">{% trans %}Akcesoria{% endtrans %}</a>		
+		</span>
+	</div>
+</div>
+{% endblock breadcrumps %}	
+
+{% block style %}
+{{parent()}}
+
+{% endblock %}
+
+{% block sections %}
+<div class="welcome-text margin40down">
+ <div class="container">
+ {% for article in entities %}
+  <div class="row padding-vertical" id="garniture{{ article.title|lower|replace({' ':''}) }}">
+	<div class="col-xs-12 portfolio-main-page-row">
+	  <div class="text-left portfolios-item-main"  style="height: 200px">	
+		<a href="#image" class="col-xs-12 col-sm-4 text-center reset-padding clear-background" style="height: 200px">
+		{%if article.media|length > 0 %} 
+			<img src="{% path article.media, 'medium' %}" alt="{{article.media.name}}" class="img-responsive portfolios-item-img">
+		{% else %}
+			<!--<img src="/img/blank.png" alt="blank" style="max-height: 100%;" class="img-responsive">-->
+			<img src="/img/new/c1.jpg" data-src="blank.png" alt="blank"  class="img-responsive">
+		{%endif%}
+		</a>
+		<div class="col-xs-12 col-sm-8" style="height: 200px">
+		  <div class="text-cont">
+			<div class="">
+				<h3 class="text-center">{{ article.title}}</h3>
+				<h4 class="text-center">{{ article.subtitle}}</h4>
+				<div class=" text-justify">{{  article.content|striptags|truncate(200, true, "...")|raw }}</div>
+			</div>
+		  </div>
+	    </div>
+	  </div>
+	</div>
+  </div>
+  {% endfor %}
+ </div>
+</div>
+{% endblock %}

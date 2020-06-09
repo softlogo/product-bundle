@@ -3,12 +3,16 @@ product:
     defaults: { _controller: "SoftlogoProductBundle:Product:index" }
 
 product_cat:
-    pattern:  /category/{id}
+    path:  /category/{id}
     defaults: { _controller: SoftlogoProductBundle:Product:findByCategory }
 
 product_show:
     path:     /{id}/show
     defaults: { _controller: "SoftlogoProductBundle:Product:show" }
+
+product_garniture:
+    path:     /garniture/{cat}
+    defaults: { _controller: "SoftlogoProductBundle:Product:garniture" }
 
 product_new:
     path:     /new

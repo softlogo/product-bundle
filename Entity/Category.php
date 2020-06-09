@@ -77,7 +77,7 @@ class Category implements Translatable
 
 	/**
 	 * @ORM\ManyToMany(targetEntity="Product", mappedBy="categories", cascade="persist", orphanRemoval=false)
-	 * @ORM\OrderBy({"itemorder" = "ASC"})
+	 * @ORM\OrderBy({"number" = "ASC"})
      */
     private $products;
 

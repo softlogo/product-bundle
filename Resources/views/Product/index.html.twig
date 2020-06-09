@@ -1,174 +1,77 @@
-{% extends "SoftlogoCMSBundle:Page:page.html.twig" %}
-
+{% extends "@home/Layout.html.twig" %}
 {% block style %}
 {{parent()}}
-<link rel="stylesheet" href="/css/shop.css" />
 {% endblock %}
-{% block title %}
-<title>Sklep internetowy</title>
-{% endblock %}
-{% block menu %}
-{% block stickyshop %}
-{% endblock %}
-
-
-<li><a href="/pl/shop"><span class="label-nav">Sklep</span></a></li>
-<li><a href="/pl/shop/basket"><span class="label-nav">Koszyk zamówienia</span></a></li>
-<li><a href="/profile"><span class="label-nav">Moje konto</span></a></li>
-<li><a href="/pl/shop"><span class="label-nav">Regulamin sklepu</span></a></li>
-<li><a href="/pl/kontakt"><span class="label-nav">Kontakt</span></a></li>
-{% endblock %}
-{% block breadcrumb %}	
-<li>
-<a href="/">Home</a>
-</li>
-<li><a href="/pl/shop">Sklep</a></li>
-{%if category is defined%}
-{% if category is not null %}
-<li class="active"><a href="">{{category.name}}</a></li>
-{% endif%}
-{% endif%}
-{% endblock breadcrumb %}	
-
-				{% block topcart%}
-
-				{{ render_shop_top_basket({}) }}
-
-
-				{% endblock topcart%}
-{% block content -%}
-<div class="body-wrapper">
+{% block title %}Produkty{% endblock %}
+{% block menuBottomMain %}
+<div class="menu-bottom-main">
 	<div class="container">
-
-		<div class="row">
-
-
-			<div class="col-md-12 col-sm-12">
-				<h1 class="">Sklep</h1>
-			</div>
-			<div class="col-md-3 col-sm-3">
-				<!--
-				-                <div class="search-form">
-					-                    <form  name="searchType" method="get" action="/pl/shop/search" class="form-horizontal form-inline" role="form">
-						-                        <div id="searchType" class="form-horizontal">
-							-
-							-                            <div class="form-group">
-								-                                <label class="control-label sr-only required" for="searchType_search">Słowo kluczowe</label>
-								-                                <div class="input-group">
-									-                                    <input type="text" id="searchType_search" name="searchType[search]" required="required" placeholder="Słowo kluczowe" class="form-control" value="bimetal" >
-									-                                </div>
-								-                            </div>
-							-
-							-                            <div class="form-group">
-								-                                <button type="submit" id="searchType_submit" name="searchType[submit]" class="btn btn-primary">Szukaj</button>
-								-                            </div>
-							-                            <input type="hidden" id="searchType__token" name="searchType[_token]"        placeholder="Token" class="form-control" value="7RHLnxOnmvk8ABBl_P3nnXaWGsSiL-1hdtJMNHYlxYQ" >
-							-                        </div>
-						-                    </form>
-					-
-					-                </div>
-				-->
-
-				<div class="sidebar-block">
-					<div class="sidebar-block">         
-						<div class="sidebar-content tags blog-search">
-							<form  name="searchType" action="/pl/shop/search" method="get">      
-								<div class="input-group">           
-									<input type="text" name="searchType[search]" class="form-control blog-search-input text-input" placeholder="Szukaj.."/>
-									<span class="input-group-addon">    
-										<button  name="searchType[submit]" class="blog-search-button icon-search ">                                     
-										</button>                   
-									</span>                     
-								</div>                      
-							</form>
-						</div>
-					</div>
-
-				</div>
-				<div class="nav-side-menu">
-					<div class="brand">KATEGORIE</div>
-					<i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
-
-					<div class="menu-list">
-
-						<ul id="menu-content" class="menu-content collapse out">
-							{% for cat in categories%}
-
-							<li  data-toggle="collapse" data-target="#cat{{cat.id}}" class="collapsed active">
-							<a href="#"> {{cat.name}} <span class="arrow"></span></a>
-							</li>
-							<ul class="sub-menu {{category is null or category.parent.name!=cat.name?'collapse'}}" id="cat{{cat.id}}">
-
-								{% for subcat in cat.categories%}
-								<li class="{{category is not null and category.name==subcat.name?'active'}}"><a href="{{ path('product_cat', { 'id': subcat.id }) }}">{{subcat.name}}</a></li>
-								{% endfor %}
-							</ul>
-
-							{% endfor %}
-						</ul>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-9 col-sm-9">
-				<ul class="nav nav-pills nav-products">
-					<li class="label">Ilość produktów spełniających kryteria: {{ entities.getTotalItemCount}} | </li> 
-
-					<li class="label">Sortuj wg:</li>
-					<li role="presentation"{% if entities.isSorted('a.id') %} class="active"{% endif %}>{{ knp_pagination_sortable(entities, 'Data dodatnia', 'a.id') }}</li>
-					<li role="presentation"{% if entities.isSorted('a.price') %} class="active"{% endif %}>{{ knp_pagination_sortable(entities, 'Cena', 'a.price') }}</li>
-				</ul>
-
-
-
-
-
-
-				{% for item in entities %}
-
-				<!-- Portfolio Item -->
-				<div class="thumb-label-item animated web-design"
-					data-animtype="fadeInUp"
-					data-animrepeat="0"
-					data-speed="1s"
-					data-delay="0.6s">
-					<div class="img-overlay thumb-label-item-img">
-						<img
-						src="{% path item.getFirstProductMedia().media, 'medium' %}"
-						alt=""/>
-
-						<div class="item-img-overlay">
-							<a class="portfolio-zoom fa fa-plus"
-								href="{% path item.getFirstProductMedia().media, 'big' %}"
-								data-rel="prettyPhoto[portfolio]" title="Title goes here"></a>
-
-							<div class="item_img_overlay_content">
-								<h3 class="thumb-label-item-title">
-									<a href="{{ path('product_show', { 'id': item.id }) }}">Zobacz produkt</a>
-								</h3>
-							</div>
-
-						</div>
-					</div>
-
-					<a href="{{ path('product_show', { 'id': item.id }) }}">
-						<h4><center>{{item.name}}</center></h4>
-						<h5><center><span class="product-price">{{(item.price/1.23)|round(2)}} zł</span> netto</center></h5>
-					</a>
-
-				</div>
-				{% endfor %}
-				<br class="clear" />
-				{{ knp_pagination_render(entities) }}
-			</div>
-
-		</div>
-
-
+		{{render_page_cat({parent: categoryMain, menu: 'on'})}}			
 	</div>
-
 </div>
+{% endblock menuBottomMain %}
 
+{% block breadcrumps %}	
+<div class="breadcrumps">
+	<div class="container">
+		<span>
+		<a href="/{{app.request.locale}}">{% trans %}Home{% endtrans %}</a>->
+		<a href="">{{ category.name|capitalize}}
+		</a>					
+		</span>
+	</div>
+</div>
+{% endblock breadcrumps %}	
+{% block sections %}
+<div class="product-section">
+	<div class="container">	
+		<div class="col-xs-12 col-sm-3 reset-padding ">
+			<ul class="side-menu">
+			{% for item in entities %}
+				<li><a href="{{ path('product_show', { 'id': item.id }) }}" class="" ><span class="menu-span">{{item.name}}</span></a></li>
+			{% endfor %}
+			</ul>
+		</div>
+		{% block productContent %}
+		<div class="col-xs-12 col-sm-9 product-info">
+				<h1>RIA {{ category.name |capitalize}}</h1>
+				<div class="text-justify"><p>{{category.description}}</p></div>
 
-
+			<div class="products-cont col-xs-12 reset-padding">
+			{% for item in entities %}
+				<div class="col-sm-3 col-xs-6 reset-padding">
+					<a href="{{ path('product_show', { 'id': item.id }) }}" class="product-cont" >
+						<div class="img-cont">
+							{% if item.media %}
+							<img src="{% path item.media, 'big' %}" alt="{{item.media? item.media.name }}" class="img-responsive" style="" />			
+							{% else %}
+							<img src="/img/blank.png" alt="" class="img-responsive col-xs-12" style="height: 100%; width: 100%; " />
+							{% endif %}
+							<div>
+ 							<h5>{{item.name}}</h5>
+							</div>
+						
+						</div>
+					</a>
+				</div>
+			
+			{% endfor %}
+			</div>
+			<div class="col-xs-12 reset-padding garniture-cont">
+				<!--<h4>{% trans %}Realizacje{% endtrans %}</h4>-->
+		        {#{ render_portfolios_by_length ({'length': 2}) }#}
+			</div>
+			<!--
+			<div class="col-xs-12 reset-padding garniture-cont">
+				<h4>{% trans %}Dodatki{% endtrans %}</h4>
+				<div class="row">
+		        {{ render_section_by_id({'id': 1}) }}
+				</div>
+			</div>
+			-->
+		</div>
+		{% endblock productContent %}
+	</div>
+</div>
 
 {% endblock %}
