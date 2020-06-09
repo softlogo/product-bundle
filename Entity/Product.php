@@ -416,6 +416,11 @@ class Product implements  Translatable
         return $this->number;
     }
 
+    public function getPrice()
+    {
+        return 1;
+    }
+
 
 
 }
