@@ -81,12 +81,19 @@ class Category implements Translatable
      */
     private $products;
 
+    /**
+     * @var \Softlogo\CMSBundle\Entity\Page
+     *
+     * @ORM\ManyToMany(targetEntity="\Softlogo\CMSBundle\Entity\Page", inversedBy="category")
+     */
+    private $page;
 
     /**
      * Get id
      *
      * @return integer 
      */
+
     public function getId()
     {
         return $this->id;
@@ -305,4 +312,41 @@ class Category implements Translatable
     {
         return $this->products;
     }
+
+
+    /**
+     * Get page
+     *
+     * @return \Softlogo\CMSBundle\Entity\Page
+     */
+    public function getPage()
+    {
+        return $this->page;
+    }
+
+    /**
+     * Add page
+     *
+     * @param \Softlogo\CMSBundle\Entity\Page $page
+     *
+     * @return Category
+     */
+    public function addPage(\Softlogo\CMSBundle\Entity\Page $page)
+    {
+        $this->page[] = $page;
+
+        return $this;
+    }
+
+    /**
+     * Remove page
+     *
+     * @param \Softlogo\CMSBundle\Entity\Page $page
+     */
+    public function removePage(\Softlogo\CMSBundle\Entity\Page $page)
+    {
+        $this->page->removeElement($page);
+    }
+
+
 }
