@@ -61,6 +61,9 @@ class Product implements  Translatable
      */
     private $id;
 
+
+    private $locale;
+
     /**
      *
      * @ORM\Column(name="slug", type="string", length=255, nullable=true)
@@ -275,7 +278,17 @@ class Product implements  Translatable
      */
     public function getProductMedias()
     {
-        return $this->productMedias;
+		if($this->getLocale()){
+		$medias=array();
+		foreach($this->productMedias as $pm){
+			if($pm->getLanguage()->getAbbr()==$this->getLocale()){
+				$medias[]=$pm;
+			}
+		
+		}
+		return $medias;
+		}
+		else return $this->productMedias;
     }
 
 
@@ -461,6 +474,17 @@ class Product implements  Translatable
 		return $this->slug;
     }
 
+    public function setLocale($locale)
+    {
+        $this->locale = $locale;
+
+        return $this;
+    }
+
+    public function getLocale()
+    {
+		return $this->locale;
+    }
 
 
 }

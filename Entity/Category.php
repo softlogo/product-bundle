@@ -391,5 +391,10 @@ class Category implements Translatable
         $this->page->removeElement($page);
     }
 
+	public function setLocale($loc){
+		foreach ($this->getProducts() as $product){
+			$product->setLocale($loc);
+		}
+	}
 
 }
