@@ -6,7 +6,7 @@
 {% block menuBottomMain %}
 <div class="menu-bottom-main">
 	<div class="container">
-		{{render_page_cat({parent: categoryMain.name, menu: 'on'})|raw}}			
+		{{render_page_cat({parent: categoryMain.slug, menu: 'on'})|raw}}			
 	</div>
 </div>
 {% endblock menuBottomMain %}
