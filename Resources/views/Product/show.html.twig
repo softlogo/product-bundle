@@ -20,7 +20,7 @@
     		</a>->
     		{% endif %}
 		{% endif %}
-		<a href="{{entity.category.id is defined ? path('product_cat',{'id':entity.category.id}) : '#' }}">
+		<a href="{{entity.category.slug is defined ? path('product_cat',{'slug':entity.category.slug}) : '#' }}">
 			{{entity.category.name is defined ? entity.category.name|capitalize}}
 		</a>	-><a href="">{{entity.name}}</a>				
 		</span>

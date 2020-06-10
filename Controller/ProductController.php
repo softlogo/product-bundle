@@ -85,11 +85,12 @@ class ProductController extends Controller
 	 * Finds and displays a Product entity.
 	 *
 	 */
-	public function showAction(Request $request, $id)
+	public function showAction(Request $request, $slug, $cat_slug)
 	{
 		$em = $this->getDoctrine()->getManager();
 
-		$entity = $em->getRepository('SoftlogoProductBundle:Product')->find($id);
+		$entity = $em->getRepository('SoftlogoProductBundle:Product')->findOneBySlug($slug);
+		$category = $em->getRepository('SoftlogoProductBundle:Category')->findOneBySlug($cat_slug);
 		$categories = $this->getCatRepository()->findBy(array(), array('itemorder' => 'ASC'));
 
 		if (!$entity) {
@@ -104,22 +105,26 @@ class ProductController extends Controller
 			return $this->redirect($this->generateUrl('softlogo_shop.basket'));	
 		}
 
+		$entities=$category->getProducts();
 		return $this->render('SoftlogoProductBundle:Product:show.html.twig', array(
 			'entity'      => $entity,
+			'entities'      => $entities,
 			'categories' => $categories,
 			'form' => $shop->getProductForm(),
+			'categoryMain' => $category->getParent(),
+			'category' => $category,
 		));
 	}
-	public function findByCategoryAction(Request $request,$id){
-		$category= $this->getCatRepository()->findOneBy(array('id'=>$id), array());
+	public function findByCategoryAction(Request $request,$slug){
+		$category= $this->getCatRepository()->findOneBy(array('slug'=>$slug), array());
 		$categories = $this->getCatRepository()->findBy(array('parent'=>null), array('itemorder' => 'ASC'));
-		$query = $this->getRepository()->findByCategoryQuery($id);
+		$query = $this->getRepository()->findByCategoryQuery($slug);
 
 		$paginator  = $this->get('knp_paginator');
 		$pagination = $paginator->paginate(
 			$query,
 			$request->query->getInt('page', 1)/*page number*/,
-			10/*limit per page*/
+			100/*limit per page*/
 		);
 
 

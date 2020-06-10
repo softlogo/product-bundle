@@ -55,9 +55,7 @@ class ProductAdmin extends Admin
 	{
 		$listMapper
 
-			//->add('media')
 			->add('media', null, array('template' => 'SoftlogoShopBundle:Admin:list-image.html.twig'), array('link_parameters' => array('context' => 'Default')))
-			//->add('id')
 			->add('name')
 			->add('categories')
 			->add('docPL', null, array('editable' => false))

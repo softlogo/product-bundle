@@ -60,6 +60,7 @@ class CategoryAdmin extends Admin
 			->add('description')
 			->add('itemorder')
 			->add('parent')
+			->add('slug')
 			->add('page')
 			->add('media', ModelListType::class, array('required' => false,), array())
 			;

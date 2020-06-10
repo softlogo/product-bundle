@@ -47,6 +47,14 @@ class Category implements Translatable
      */
     private $name;
 
+
+    /**
+     *
+     * @ORM\Column(name="slug", type="string", length=255)
+     */
+    private $slug;
+
+
     /**
      * @var string
      *
@@ -121,6 +129,20 @@ class Category implements Translatable
     {
         return $this->name;
     }
+
+
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
 
     /**
      * Set description

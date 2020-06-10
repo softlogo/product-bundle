@@ -26,10 +26,10 @@ class ProductRepository extends EntityRepository
 		return $query;
     }
 
-    public function findByCategoryQuery($id){   
+    public function findByCategoryQuery($slug){   
         $qb = $this->createQueryBuilder('a')->join('a.categories', 'c');
-        $qb->andWhere('c.id = :id')
-            ->setParameter('id', $id);
+        $qb->andWhere('c.slug = :slug')
+            ->setParameter('slug', $slug);
 		$query=$qb->getQuery();
 		//echo $query->getSql();
         //return $query->getResult();

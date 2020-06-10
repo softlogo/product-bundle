@@ -38,6 +38,11 @@ class Product implements  Translatable
      */
     private $id;
 
+    /**
+     *
+     * @ORM\Column(name="slug", type="string", length=255)
+     */
+    private $slug;
 
 	 /**
 	 * @var boolean
@@ -421,6 +426,17 @@ class Product implements  Translatable
         return 1;
     }
 
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getSlug()
+    {
+        return $this->slug;
+    }
 
 
 }
