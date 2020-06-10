@@ -91,7 +91,9 @@ class ProductController extends Controller
 
 		$entity = $em->getRepository('SoftlogoProductBundle:Product')->findOneBySlug($slug);
 		$category = $em->getRepository('SoftlogoProductBundle:Category')->findOneBySlug($cat_slug);
+		$language = $em->getRepository('SoftlogoCMSBundle:Language')->findOneByAbbr($request->getLocale());
 		$categories = $this->getCatRepository()->findBy(array(), array('itemorder' => 'ASC'));
+		$docs = $em->getRepository('SoftlogoProductBundle:ProductMedia')->findBy(array('product'=>$entity, 'language'=>$language));
 
 		if (!$entity) {
 			throw $this->createNotFoundException('Unable to find Product entity.');
@@ -113,6 +115,7 @@ class ProductController extends Controller
 			'form' => $shop->getProductForm(),
 			'categoryMain' => $category->getParent(),
 			'category' => $category,
+			'docs' => $docs,
 		));
 	}
 	public function findByCategoryAction(Request $request,$slug){

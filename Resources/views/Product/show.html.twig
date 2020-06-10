@@ -1,5 +1,5 @@
 {% extends "SoftlogoProductBundle:Product:index.html.twig" %}
-
+{% set types= {2:"CE", 3: "DTR", 4: "DWG", 5: "CARD"} %}
 {% block title%}{{ entity.name}}{% endblock title%}
 {% block seo%}
 <meta name="keywords" content="{% for category in entity.categories %} {{category.name}}, {% endfor %}">
@@ -182,16 +182,21 @@ jQuery(document).ready(function($){
 				
     				<h3>{% trans %}Dokumentacja{% endtrans %}</h3>
 					<div class="text-justify"></div>
-                {% for file in entity.productMedias|mediaType(['PDF', 'CE', 'DTR', 'DWG'])%}
+                {% for file in docs %}
+				{% if file.media %}
 				{{ loop.index is odd ? '<div class="row">' }}
                     <div class="col-xs-6 text-left">
 						<a href="{% path file.media, 'reference' %}" style="display: inline-block; height: 50px;" target="_blank">
-							<img src="/img/pdf.png" style="display: inline-block; max-height: 100%; margin: auto;"  class="img-responsive" title="{{ file.type }}" alt="{{ file.type }}"/>
+							<img src="/img/pdf.png" style="display: inline-block; max-height: 100%; margin: auto;"  class="img-responsive" title="{{ file.type }}" alt="{{ types[file.type] }}"/>
 						</a>
-                    Typ:{{ file.type }}, {{ file.media.name }}
+						<strong>
+							{{ types[file.type] }}
+						</strong>
+                     {{ file.media.name }}
 					</div>
 					{#<span style="padding-right: 20px;"	>{{ file.type }}: </span><a href="{% path file.media, 'reference' %}" target="_blank">{{ file.media.name }}</a></div>#}
         		{{ loop.index is even ? '</div>' }}
+				{%endif%}
 				{%endfor%}
 				<br><br>
 			</div>
