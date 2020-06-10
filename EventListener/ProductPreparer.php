@@ -28,9 +28,6 @@ class ProductPreparer
 		$languages= ['pl', 'en', 'de', 'dk'];
 		foreach($languages as $abbr){
 		$lang = $langRep->findOneByAbbr($abbr);
-		$pdf=new ProductMedia();
-		$pdf->setType(1);
-		$pdf->setLanguage($lang);
 
 		$ce=new ProductMedia();
 		$ce->setType(2);
@@ -48,7 +45,6 @@ class ProductPreparer
 		$card->setType(5);
 		$card->setLanguage($lang);
 
-		$product->addProductMedia($pdf);
 		$product->addProductMedia($ce);
 		$product->addProductMedia($dtr);
 		$product->addProductMedia($dwg);

@@ -99,7 +99,7 @@ class Product implements  Translatable
 	/**
 	 * @var \ProductMedia
 	 *
-	 * @ORM\OneToMany(targetEntity="ProductMedia", mappedBy="product",cascade={"all"}, orphanRemoval=true)
+	 * @ORM\OneToMany(targetEntity="ProductMedia", mappedBy="product",cascade={"all"}, orphanRemoval=false)
 	 * @ORM\OrderBy({"language" = "ASC", "type"="ASC"})
 	 */
 	private $productMedias;

@@ -109,7 +109,7 @@ class ProductAdmin extends Admin
 
 			->tab('Documentation')
 			->with('Files')
-			->add('productMedias', CollectionType::class, array('label' => 'Media', 'required' => false, 'by_reference' => false), array('edit' => 'inline','inline' => 'table'))
+			->add('productMedias', CollectionType::class, array('label' => 'Media', 'required' => false, 'by_reference' => true, 'btn_add' => false), array('edit' => 'inline','inline' => 'table'))
 			->end()
 			->end()
 
