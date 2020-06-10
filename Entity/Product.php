@@ -411,7 +411,7 @@ class Product implements  Translatable
 				$types[]=$pm->getType();
 			}
 		}
-		if(array_diff(Array(1,2,3,4),$types)==false){
+		if(array_diff(Array(2,3,4,5),$types)==false){
 		return true;
 		}else return false;
 
@@ -425,7 +425,7 @@ class Product implements  Translatable
 				$types[]=$pm->getType();
 			}
 		}
-		if(array_diff(Array(1,2,3,4,5),$types)==false){
+		if(array_diff(Array(2,3,4,5),$types)==false){
 			return true;
 		}else return false;
 
