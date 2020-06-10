@@ -107,7 +107,7 @@ jQuery(document).ready(function($){
 {% block menuBottomMain %}
 <div class="menu-bottom-main">
 	<div class="container">
-		{{render_page_cat({parent: categoryMain, menu: 'on', category: entity.category.id})|raw}}			
+		{{render_page_cat({parent: categoryMain.name, menu: 'on'})|raw}}			
 	</div>
 </div>
 {% endblock menuBottomMain %}
