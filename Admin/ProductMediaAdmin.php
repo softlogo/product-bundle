@@ -58,7 +58,7 @@ class ProductMediaAdmin extends Admin
 			];
 		$context=($c=array_search($this -> getSubject() -> getType(), $choices)) ? $c : 'PDF';
         $formMapper
-            ->add('language', null, array('disabled'=>true))
+            //->add('language', null, array('disabled'=>true))
 			->add('type', ChoiceType::class, [
 			'choices'  =>$choices,
 			'disabled'=>true

@@ -77,6 +77,9 @@ class ProductAdmin extends Admin
 	 */
 	protected function configureFormFields(FormMapper $formMapper)
 	{
+
+		$subject = $this->getSubject();
+		$subject->setLocale($this->request->getLocale());
 		$formMapper
 			->tab('Product')
 			->with('General', array('class' => 'col-md-9'))->end()
