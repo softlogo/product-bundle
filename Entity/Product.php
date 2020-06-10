@@ -6,15 +6,38 @@ use Doctrine\ORM\Mapping as ORM;
 use Softlogo\ShopBundle\Model\ProductInterface;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Translatable\Translatable;
+use Softlogo\CMSBundle\Lib\Util;
 
 /**
  * Product
  *
  * @ORM\Table()
+ * @ORM\HasLifecycleCallbacks()
  * @ORM\Entity(repositoryClass="Softlogo\ProductBundle\Entity\ProductRepository")
  */
 class Product implements  Translatable
 {
+
+	/**
+	 * @ORM\PrePersist
+	 * @ORM\PreUpdate
+	 */
+	public function setFields(): void
+	{
+		$u=new Util();
+		//$slug=$u->slugify($this->getName())."-".$this->getId();
+		$slug=$u->slugify($this->getName());
+		$this->setSlug($slug);
+
+		/*
+		 *$this->setUpdatedAt(new \DateTime('now'));    
+		 *if ($this->getCreatedAt() === null) {
+		 *    $this->setCreatedAt(new \DateTime('now'));
+		 *}
+		 */
+	}
+
+
     /**
      * Constructor
      */
@@ -40,7 +63,7 @@ class Product implements  Translatable
 
     /**
      *
-     * @ORM\Column(name="slug", type="string", length=255)
+     * @ORM\Column(name="slug", type="string", length=255, nullable=true)
      */
     private $slug;
 
@@ -435,8 +458,9 @@ class Product implements  Translatable
 
     public function getSlug()
     {
-        return $this->slug;
+		return $this->slug;
     }
+
 
 
 }

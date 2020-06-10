@@ -5,15 +5,36 @@ namespace Softlogo\ProductBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Translatable\Translatable;
+use Softlogo\CMSBundle\Lib\Util;
 
 /**
  * Category
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Softlogo\ProductBundle\Entity\CategoryRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Category implements Translatable
 {
+
+	/**
+	 * @ORM\PrePersist
+	 * @ORM\PreUpdate
+	 */
+	public function setFields(): void
+	{
+		$u=new Util();
+		$slug=$u->slugify($this->getName())."-".$this->getParent();
+		$this->setSlug($slug);
+
+		/*
+		 *$this->setUpdatedAt(new \DateTime('now'));    
+		 *if ($this->getCreatedAt() === null) {
+		 *    $this->setCreatedAt(new \DateTime('now'));
+		 *}
+		 */
+	}
+
 	public function __toString(){
 		if($this->getParent()){
 			return $this->getParent()." : ".$this->getName();
@@ -50,7 +71,7 @@ class Category implements Translatable
 
     /**
      *
-     * @ORM\Column(name="slug", type="string", length=255)
+     * @ORM\Column(name="slug", type="string", length=255, nullable=true)
      */
     private $slug;
 
