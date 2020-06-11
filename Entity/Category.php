@@ -19,7 +19,6 @@ class Category implements Translatable
 
 	/**
 	 * @ORM\PrePersist
-	 * @ORM\PreUpdate
 	 */
 	public function setFields(): void
 	{
