@@ -1,6 +1,11 @@
 {% extends "@home/Layout.html.twig" %}
 {% block style %}
 {{parent()}}
+<style type="text/css">
+	.menu-cont	{
+		padding-left:15px;
+	}
+</style>
 {% endblock %}
 {% block title %}Produkty{% endblock %}
 {% block menuBottomMain %}
@@ -15,9 +20,9 @@
 <div class="breadcrumps">
 	<div class="container">
 		<span>
-		<a href="/{{app.request.locale}}">{% trans %}Home{% endtrans %}</a>->
-		<a href="">{{ category.name|capitalize}}
-		</a>					
+			<a href="/{{app.request.locale}}">{% trans %}Home{% endtrans %}</a>->
+			<a href="">{{ category.name|capitalize}}
+			</a>					
 		</span>
 	</div>
 </div>
@@ -25,50 +30,66 @@
 {% block sections %}
 <div class="product-section">
 	<div class="container">	
-		<div class="col-xs-12 col-sm-3 reset-padding ">
+		<div class="row">
+		<div class="col-xs-12 col-sm-3 reset-padding menu-cont">
 			<ul class="side-menu">
-			{% for item in entities %}
+				{% for item in entities %}
 				<li><a href="{{ path('product_show', { 'slug': item.slug , 'cat_slug': category.slug }) }}" class="" ><span class="menu-span">{{item.name}}</span></a></li>
-			{% endfor %}
+				{% endfor %}
 			</ul>
 		</div>
 		{% block productContent %}
-		<div class="col-xs-12 col-sm-9 product-info">
+			<div class="col-xs-12 col-sm-9">
 				<h1>RIA {{ category.name |capitalize}}</h1>
 				<div class="text-justify"><p>{{category.description}}</p></div>
-
-			<div class="products-cont col-xs-12 reset-padding">
-			{% for item in entities %}
-				<div class="col-sm-3 col-xs-6 reset-padding">
-					<a href="{{ path('product_show', { 'slug': item.slug, 'cat_slug': category.slug }) }}" class="product-cont" >
-						<div class="img-cont">
-							{% if item.media %}
-							<img src="{% path item.media, 'big' %}" alt="{{item.media? item.media.name }}" class="img-responsive" style="" />			
-							{% else %}
-							<img src="/img/blank.png" alt="" class="img-responsive col-xs-12" style="height: 100%; width: 100%; " />
-							{% endif %}
-							<div>
- 							<h5>{{item.name}}</h5>
-							</div>
-						
-						</div>
-					</a>
-				</div>
-			
-			{% endfor %}
-			</div>
-			<div class="col-xs-12 reset-padding garniture-cont">
-				<!--<h4>{% trans %}Realizacje{% endtrans %}</h4>-->
-		        {#{ render_portfolios_by_length ({'length': 2}) }#}
-			</div>
-			<!--
-			<div class="col-xs-12 reset-padding garniture-cont">
-				<h4>{% trans %}Dodatki{% endtrans %}</h4>
 				<div class="row">
-		        {{ render_section_by_id({'id': 1}) }}
+					{% for item in entities %}
+					<div class="col-sm-12 col-md-6 col-box horizontal">
+						<h4>{{item.name}}</h4>
+						<div class="row">
+							<div class="col-sm-6">
+
+								<a href="{{ path('product_show', { 'slug': item.slug, 'cat_slug': category.slug }) }}" class="product-cont" >
+									{% if item.media %}
+									<img src="{% path item.media, 'big' %}" alt="{{item.media? item.media.name }}" class="img-responsive" style="" />			
+									{% else %}
+									<img src="/img/blank.png" alt="" class="img-responsive" style="height: 100%; width: 100%; " />
+									{% endif %}
+
+								</a>
+							</div>
+							<div class="col-sm-6">
+								<span>
+									{{ item.description|striptags|truncate(70, true, "...")|raw }}
+									<div class="bottom">
+										<div class="button">
+											<a class="btn btn-primary btn-submit" href="{{ path('product_show', { 'slug': item.slug, 'cat_slug': category.slug }) }}">CZYTAJ DALEJ</a>
+										</div>
+									</div>	
+								</span>
+							</div>
+						</div>
+
+
+					</div>
+
+					{% endfor %}
+
+					<div class="col-xs-12 reset-padding garniture-cont">
+						<!--<h4>{% trans %}Realizacje{% endtrans %}</h4>-->
+						{#{ render_portfolios_by_length ({'length': 2}) }#}
+					</div>
 				</div>
+
+				<!--
+				<div class="col-xs-12 reset-padding garniture-cont">
+					<h4>{% trans %}Dodatki{% endtrans %}</h4>
+					<div class="row">
+						{{ render_section_by_id({'id': 1}) }}
+					</div>
+				</div>
+				-->
 			</div>
-			-->
 		</div>
 		{% endblock productContent %}
 	</div>

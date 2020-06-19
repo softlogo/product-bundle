@@ -30,6 +30,12 @@
 
 {% block style %}
 {{parent()}}
+<style type="text/css">
+
+#wrapper-all {
+	padding: 0;
+}
+</style>
 {% endblock %}
 
 {% block script%}
@@ -114,7 +120,7 @@ jQuery(document).ready(function($){
 {% block productContent %}
 
 <div class="col-xs-12 col-sm-9 product-info">
-	<h3 class="product-name">{{entity.name}}</h3>
+	<h1>{{entity.name}}</h1>
 		<h4>{{entity.shortDescription|raw}}</h4>
 	<div class="col-xs-12 col-sm-6 reset-padding product-div">
 	  <div class="img-cont">
@@ -132,7 +138,7 @@ jQuery(document).ready(function($){
 		<ul class="nav nav-tabs">
 			<li class="active"><a data-toggle="tab" href="#characteristic">{% trans %}Charakterystyka{% endtrans %}</a></li>
 			<li ><a data-toggle="tab" href="#documentation">{% trans %}Dokumentacja{% endtrans %}</a></li>
-			<li ><a data-toggle="tab" href="#cases">{% trans %}Realizacje{% endtrans %}</a></li>
+			{#<li ><a data-toggle="tab" href="#cases">{% trans %}Realizacje{% endtrans %}</a></li>#}
 		</ul>
 		<div class="tab-content">
 			<div id="characteristic" class="table-form tab-pane fade in active">
@@ -141,8 +147,8 @@ jQuery(document).ready(function($){
 				</div>
 				<div class="row"></div>
 				<form class="product-form" action="" method="post">
-				<div class="table-description col-sm-8 reset-padding">{% trans %}Dodaj produkty do koszyka{% endtrans %}</div>
-				<div class="table-responsive col-sm-8 reset-padding">
+				<div class="table-description col-sm-12 reset-padding">{% trans %}Dodaj produkty do koszyka{% endtrans %}</div>
+				<div class="table-responsive col-sm-12 reset-padding">
 					<table class="table">
 						<thead>
 							<tr>
@@ -164,23 +170,25 @@ jQuery(document).ready(function($){
 						</tbody>
 					</table>
 				</div>
-				<div class="btn-right col-sm-8 reset-padding" style="height: 50px;">
-					<!--<input type="submit" class="btn btn-primary btn-submit" value="{%trans%}Dodaj{%endtrans%}" /> -->
+				<div class="btn-right col-sm-12 reset-padding" style="height: 50px;">
+					<input type="submit" class="btn btn-primary btn-submit" value="{%trans%}Dodaj{%endtrans%}" /> 
+
 					<div id="result"></div>
 				</div>
 				</form>
 
+<hr class="line" />
+{#
 				<div class="col-xs-12 reset-padding garniture-cont">
 					<h4>{% trans %}Dodatki{% endtrans %}</h4>
 					<div class="row">
 					{{ render_section_by_id({'id': 1})|raw }}
 					</div>
 				</div>
-				
+#}				
 			</div>
 			<div id="documentation" class="tab-pane fade  ">
 				
-    				<h3>{% trans %}Dokumentacja{% endtrans %}</h3>
 					<div class="text-justify"></div>
                 {% for file in docs %}
 				{% if file.media %}
